@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-b3e79c3edf08b1005317.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Carousel_image",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Carousel_image::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Carousel_image-Debug-181ea772ee8424610d1e.json",
+					"name" : "Carousel_image",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Carousel_image_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Carousel_image_autogen-Debug-3262136cef1b872805db.json",
+					"name" : "Carousel_image_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Carousel_image_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Carousel_image_autogen_timestamp_deps-Debug-1844fef949143eea2923.json",
+					"name" : "Carousel_image_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Qtprogram/Carousel_image/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug",
+		"source" : "D:/Qtprogram/Carousel_image"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

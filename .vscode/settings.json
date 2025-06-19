@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    "qapplication": "cpp",
+    "memory": "cpp",
+    "qpainterpath": "cpp",
+    "qpropertyanimation": "cpp",
+    "qtimer": "cpp",
+    "new": "cpp"
+  }
+}

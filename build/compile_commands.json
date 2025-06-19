@@ -1,0 +1,26 @@
+[
+{
+  "directory": "D:/Qtprogram/Carousel_image/build",
+  "command": "D:\\360Downloads\\QT\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Carousel_image.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\Carousel_image.dir\\Carousel_image_autogen\\mocs_compilation.cpp.obj -c D:\\Qtprogram\\Carousel_image\\build\\Carousel_image_autogen\\mocs_compilation.cpp",
+  "file": "D:/Qtprogram/Carousel_image/build/Carousel_image_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/Carousel_image.dir/Carousel_image_autogen/mocs_compilation.cpp.obj"
+},
+{
+  "directory": "D:/Qtprogram/Carousel_image/build",
+  "command": "D:\\360Downloads\\QT\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Carousel_image.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\Carousel_image.dir\\main.cpp.obj -c D:\\Qtprogram\\Carousel_image\\main.cpp",
+  "file": "D:/Qtprogram/Carousel_image/main.cpp",
+  "output": "CMakeFiles/Carousel_image.dir/main.cpp.obj"
+},
+{
+  "directory": "D:/Qtprogram/Carousel_image/build",
+  "command": "D:\\360Downloads\\QT\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Carousel_image.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\Carousel_image.dir\\widget.cpp.obj -c D:\\Qtprogram\\Carousel_image\\widget.cpp",
+  "file": "D:/Qtprogram/Carousel_image/widget.cpp",
+  "output": "CMakeFiles/Carousel_image.dir/widget.cpp.obj"
+},
+{
+  "directory": "D:/Qtprogram/Carousel_image/build",
+  "command": "D:\\360Downloads\\QT\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Carousel_image.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\Carousel_image.dir\\Elliptical_background.cpp.obj -c D:\\Qtprogram\\Carousel_image\\Elliptical_background.cpp",
+  "file": "D:/Qtprogram/Carousel_image/Elliptical_background.cpp",
+  "output": "CMakeFiles/Carousel_image.dir/Elliptical_background.cpp.obj"
+}
+]
