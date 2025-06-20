@@ -9,24 +9,8 @@ EllipseCornerCard::EllipseCornerCard(QWidget *parent)
     pal.setColor(QPalette::Window, QColor(243, 246, 253));
     this->setPalette(pal);
 
-    leftControlButton = new LatticeCircleButton(this);
-    rightControlButton = new LatticeCircleButton(this);
-
-    leftControlButton->isColorStateActive = true;
-
-    connect(leftControlButton,
-            &LatticeCircleButton::latticeCircleClicked,
-            this,
-            &EllipseCornerCard::moveLeft);
-
-    connect(rightControlButton,
-            &LatticeCircleButton::latticeCircleClicked,
-            this,
-            &EllipseCornerCard::moveRight);
-
     this->loadImages();
     this->buildBaseData();
-    this->arrangeImages();
 
     connect(&autoMoveTimer, &QTimer::timeout, this, &EllipseCornerCard::updateView);
     autoMoveTimer.setInterval(16);
@@ -40,16 +24,35 @@ EllipseCornerCard::EllipseCornerCard(QWidget *parent)
 
 void EllipseCornerCard::loadImages()
 {
-    qreal x = 0;
-    for (int i = 1; i < 99; i++)
-    {
-        QPixmap pixmap(QString("://img/card_image%1.jpg").arg(i));
-        if (pixmap.isNull())
-            return;
+    QString basePath = "E:/AnimationImage/card_image%1.jpg";
+    QDir dir("E:/AnimationImage");
+
+    if (!dir.exists()) {
+        qCritical() << "错误：图片目录不存在 - " << dir.path();
+        return;
+    }
+
+    for (int i = 1; i < 7; i++) {
+        QString filePath = basePath.arg(i);
+
+        if (!QFile::exists(filePath)) {
+            qWarning() << "图片文件不存在:" << filePath;
+            continue; // 跳过缺失文件继续加载
+            // 或者 return; 根据需求选择
+        }
+
+        QPixmap pixmap(filePath);
+
+        if (pixmap.isNull()) {
+            qWarning() << "加载失败（可能损坏）:" << filePath;
+            continue;
+        }
+
         pixmapManager.append(pixmap);
     }
-}
 
+    qDebug() << "成功加载图片数量:" << pixmapManager.size();
+}
 void EllipseCornerCard::buildBaseData()
 {
     leftBoundary = boundaryRect.width() * 0.3750;
@@ -62,11 +65,6 @@ void EllipseCornerCard::buildBaseData()
     lowerEllipseYRadius = boundaryRect.height() * 0.3261;
 
     int buttonSize = boundaryRect.width() / 30;
-    leftControlButton->resize(buttonSize, buttonSize);
-    rightControlButton->resize(buttonSize, buttonSize);
-
-    leftControlButton->move(boundaryRect.width() * 0.45, boundaryRect.height() * 0.8);
-    rightControlButton->move(boundaryRect.width() * 0.50, boundaryRect.height() * 0.8);
 
     progressBarStep = qreal(boundaryRect.width()) / qreal(boundaryRect.height()) * 1.6;
     expandCollapseHeight = boundaryRect.height() * 0.98;
@@ -80,8 +78,7 @@ void EllipseCornerCard::arrangeImages()
 {
     qreal x = positionRatio * boundaryRect.width();
 
-    for (int i = 0; i < pixmapManager.size(); i++)
-    {
+    for (int i = 0; i < pixmapManager.size(); i++) {
         if (i == 0)
             leftLimitMargin = x + -leftBoundary * 0.4444;
         else if (i == boundaryCoordinates.size() - 1)
@@ -99,8 +96,7 @@ void EllipseCornerCard::calculateDrawingArea(qreal &imageFrontX, qreal &imageBac
 
     painter.setRenderHints(QPainter::Antialiasing | QPainter::LosslessImageRendering);
 
-    if (imageFrontX > boundaryRect.width() || imageBackX < 0)
-    {
+    if (imageFrontX > boundaryRect.width() || imageBackX < 0) {
         return;
     }
 
@@ -143,7 +139,7 @@ void EllipseCornerCard::calculateDrawingArea(qreal &imageFrontX, qreal &imageBac
     QTransform transform;
     QPointF center = targetRect.center();
     transform.translate(center.x(), center.y());
-    transform.rotate(calculateRectRotation(imageFrontX), Qt::YAxis, 2048);
+    transform.rotate(calculateRectRotation(imageFrontX), Qt::YAxis, 2048.0);
     transform.translate(-center.x(), -center.y());
 
     // 应用变换
@@ -169,7 +165,9 @@ void EllipseCornerCard::drawText()
     QColor semiTransparent(0, 0, 0, 255);
     painter.setPen(semiTransparent);
 
-    QRect actualRect = painter.boundingRect(textRect, Qt::AlignCenter | Qt::TextWordWrap, "Hello Blibli");
+    QRect actualRect = painter.boundingRect(textRect,
+                                            Qt::AlignCenter | Qt::TextWordWrap,
+                                            "Hello Blibli");
     textRect.setHeight(actualRect.height());
     textRect.setWidth(actualRect.width());
     textRect.moveCenter(QPoint(width() / 2, height() / 10));
@@ -187,90 +185,37 @@ void EllipseCornerCard::drawProgressBar()
     brush.setColor(QColor(129, 249, 255, expandCollapseOpacity));
     brush.setStyle(Qt::SolidPattern);
     painter.setBrush(brush);
-    painter.drawRect(QRectF(progressBarX, expandCollapseHeight, progressBarWidth, boundaryRect.height() * 0.04));
+    painter.drawRect(
+        QRectF(progressBarX, expandCollapseHeight, progressBarWidth, boundaryRect.height() * 0.04));
 }
 
 qreal EllipseCornerCard::calculateRectRotation(qreal &xLeft)
 {
-    if (xLeft < leftBoundary)
-    {
+    if (xLeft < leftBoundary) {
         qreal overflow = leftBoundary - xLeft;
         return -maxSecondaryRadians * (overflow / leftBoundary);
-    }
-    else if (xLeft > leftBoundary)
-    {
+    } else if (xLeft > leftBoundary) {
         qreal overflow = xLeft - leftBoundary;
         return maxSecondaryRadians * (overflow / leftBoundary);
-    }
-    else
-    {
+    } else {
         return 0;
     }
 }
 
 qreal EllipseCornerCard::calculateContractionHeight(qreal &xLeft)
 {
-    if (xLeft < leftBoundary)
-    {
+    if (xLeft < leftBoundary) {
         qreal overflow = leftBoundary - xLeft;
         return overflow / leftBoundary / 4 + maxRotationRadians;
-    }
-    else if (xLeft > leftBoundary)
-    {
+    } else if (xLeft > leftBoundary) {
         qreal overflow = xLeft - leftBoundary;
         return overflow / leftBoundary / 4 + maxRotationRadians;
-    }
-    else
-    {
+    } else {
         return maxRotationRadians;
     }
 }
 
-void EllipseCornerCard::setupAnimations()
-{
-    buttonleftAnimation = new QPropertyAnimation(this->buttonleftAnimation, "geometry");
-    buttonleftAnimation->setDuration(300);
-    buttonleftAnimation->setStartValue(this->leftControlButton->geometry());
-    buttonleftAnimation->setEndValue(QRect(this->leftControlButton->pos().x() - zoomRate / 2, this->leftControlButton->pos().y() - zoomRate / 2, leftControlButton->width() + zoomRate, leftControlButton->height() + zoomRate));
-    buttonleftAnimation->setEasingCurve(QEasingCurve::Linear);
-
-    buttonrightAnimation = new QPropertyAnimation(this->buttonrightAnimation, "geometry");
-    buttonrightAnimation->setDuration(300);
-    buttonrightAnimation->setStartValue(this->rightControlButton->geometry());
-    buttonrightAnimation->setEndValue(QRect(this->rightControlButton->pos().x() - zoomRate / 2, this->rightControlButton->pos().y() - zoomRate / 2, rightControlButton->width() + zoomRate, rightControlButton->height() + zoomRate));
-    buttonrightAnimation->setEasingCurve(QEasingCurve::Linear);
-
-    connect(leftControlButton, &LatticeCircleButton::animationStateChanged, this, [this](LatticeCircleButton::AnimationState state)
-            {
-        if(state == LatticeCircleButton::ExecutingAnimation){
-            buttonleftAnimation->setDirection(QAbstractAnimation::Forward);
-            buttonleftAnimation->start(); 
-        }else if(state == LatticeCircleButton::RestoringState){
-            buttonleftAnimation->setDirection(QAbstractAnimation::Backward);
-            buttonleftAnimation->start();
-        } });
-
-    connect(rightControlButton, &LatticeCircleButton::animationStateChanged, this, [this](LatticeCircleButton::AnimationState state)
-            {
-        if(state == LatticeCircleButton::ExecutingAnimation){
-            buttonrightAnimation->setDirection(QAbstractAnimation::Forward);
-            buttonrightAnimation->start(); 
-        }else if(state == LatticeCircleButton::RestoringState){
-            buttonrightAnimation->setDirection(QAbstractAnimation::Backward);
-            buttonrightAnimation->start();
-        } });
-
-    expansionAnimation = new QPropertyAnimation(this, "expandCollapseHeight");
-    expansionAnimation->setDuration(360);
-    expansionAnimation->setStartValue(expandCollapseHeight);
-    expansionAnimation->setEndValue(boundaryRect.height());
-    expansionAnimation->setEasingCurve(QEasingCurve::Linear);
-
-    expansionAnimation = new QPropertyAnimation(this, "expandCollapseOpacity");
-    opacityAnimation->setDuration(360);
-    opacityAnimation->setStartValue(expandCollapseOpacity);
-    opacityAnimation->setEndValue(0);
-}
+void EllipseCornerCard::setupAnimations() {}
 
 void EllipseCornerCard::moveCardLeft()
 {
@@ -330,39 +275,48 @@ void EllipseCornerCard::setExpandCollapseOpacity(int newExpandCollapseOpacity)
     update();
 }
 
+void EllipseCornerCard::moveLeft()
+{
+    if (isActiveState != true)
+        return;
+    this->moveCardLeft();
+}
+
+void EllipseCornerCard::moveRight()
+{
+    if (isActiveState != true)
+        return;
+    this->moveCardRight();
+}
+
 void EllipseCornerCard::updateView()
 {
-    for (auto &pair : boundaryCoordinates)
-    {
-        if (isReverseDirection == false)
-        {
+    for (auto &pair : boundaryCoordinates) {
+        if (isReverseDirection == false) {
             pair.first += timeStep;
             pair.second += timeStep;
-        }
-        else
-        {
+        } else {
             pair.first -= timeStep;
             pair.second -= timeStep;
         }
     }
 
-    if (boundaryCoordinates[0].first < leftLimitMargin)
-    {
+    if (boundaryCoordinates[0].first < leftLimitMargin) {
         boundaryCoordinates.append(boundaryCoordinates.takeFirst());
         pixmapManager.append(pixmapManager.takeFirst());
-        boundaryCoordinates[boundaryCoordinates.size() - 1].first = boundaryCoordinates[boundaryCoordinates.size() - 2].first + leftBoundary * 0.6888;
-        boundaryCoordinates[boundaryCoordinates.size() - 1].second = boundaryCoordinates[boundaryCoordinates.size() - 2].second + leftBoundary * 0.6888;
-    }
-    else if (boundaryCoordinates[boundaryCoordinates.size() - 1].first > rightLimitMargin)
-    {
-        boundaryCoordinates.insert(boundaryCoordinates.begin(), boundaryCoordinates.takeLast());
-        pixmapManager.insert(pixmapManager.begin(), pixmapManager.takeLast());
+        boundaryCoordinates[boundaryCoordinates.size() - 1].first
+            = boundaryCoordinates[boundaryCoordinates.size() - 2].first + leftBoundary * 0.6888;
+        boundaryCoordinates[boundaryCoordinates.size() - 1].second
+            = boundaryCoordinates[boundaryCoordinates.size() - 2].second + leftBoundary * 0.6888;
+
+    } else if (boundaryCoordinates[boundaryCoordinates.size() - 1].first > rightLimitMargin) {
+        boundaryCoordinates.prepend(boundaryCoordinates.takeLast());
+        pixmapManager.prepend(pixmapManager.takeLast());
         boundaryCoordinates[0].first = boundaryCoordinates[1].first - leftBoundary * 0.6888;
         boundaryCoordinates[0].second = boundaryCoordinates[1].second - leftBoundary * 0.6888;
     }
 
-    if (isMousePressed == true)
-    {
+    if (isMousePressed == true) {
         autoMoveTimer.stop();
         positionRatio = boundaryCoordinates[0].first / boundaryRect.width();
         update();
@@ -370,8 +324,7 @@ void EllipseCornerCard::updateView()
     }
 
     dynamicMovementControl += timeStep;
-    if (dynamicMovementControl >= leftBoundary * 0.6888)
-    {
+    if (dynamicMovementControl >= leftBoundary * 0.6888) {
         autoMoveTimer.stop();
         isActiveState = true;
         positionRatio = boundaryCoordinates[0].first / boundaryRect.width();
@@ -381,28 +334,52 @@ void EllipseCornerCard::updateView()
 
 void EllipseCornerCard::updateProgressBarData()
 {
-
-    if (isWidthAdjustmentActive)
-    {
+    if (isWidthAdjustmentActive) {
         progressBarWidth += progressBarStep;
         progressBarX = 0;
-        if (progressBarWidth >= boundaryRect.width())
-        {
+        if (progressBarWidth >= boundaryRect.width()) {
             isWidthAdjustmentActive = false;
             isPositionAdjustmentActive = true;
             this->moveCardRight();
         }
-        else if (progressBarX > 0)
-        {
-            progressBarX -= progressBarStep;
-            if (progressBarX <= 0)
-            {
-                progressBarX = 0;
-                this -> moveCardRight();
-            }
+    } else if (isPositionAdjustmentActive) {
+        progressBarX += progressBarStep;
+        progressBarWidth -= progressBarStep;
+
+        if (progressBarX >= boundaryRect.width()) {
+            progressBarWidth = boundaryRect.width();
+            isPositionAdjustmentActive = false;
+            this->moveCardRight();
         }
-        else{
-            
+    } else if (progressBarX > 0) {
+        progressBarX -= progressBarStep;
+        if (progressBarX <= 0) {
+            progressBarX = 0;
+            this->moveCardRight();
+        }
+    } else {
+        progressBarWidth -= progressBarStep;
+        if (progressBarWidth <= 0) {
+            progressBarWidth = 0;
+            isWidthAdjustmentActive = true;
+            this->moveCardRight();
         }
     }
+
+    update();
+}
+
+void EllipseCornerCard::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::LosslessImageRendering);
+
+    for (int i = 0; i < boundaryCoordinates.size(); i++) {
+        calculateDrawingArea(boundaryCoordinates[i].first,
+                             boundaryCoordinates[i].second,
+                             pixmapManager[i]);
+    }
+
+    this->drawText();
+    this->drawProgressBar();
 }

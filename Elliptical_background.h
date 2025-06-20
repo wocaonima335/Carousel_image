@@ -3,6 +3,8 @@
 
 #include "Latticed_Circle_Button.h"
 
+#include <QDir>
+#include <QFile>
 #include <QGraphicsDropShadowEffect>
 #include <QMouseEvent>
 #include <QPainter>
@@ -16,6 +18,10 @@
 
 class EllipseCornerCard : public QWidget
 {
+    Q_OBJECT
+    Q_PROPERTY(qreal expandCollapseHeight READ expand_CollapseHeight WRITE setExpandCollapseHeight)
+    Q_PROPERTY(int expandCollapseOpacity READ expand_CollapseOpacity WRITE setExpandCollapseOpacity)
+
 public:
     explicit EllipseCornerCard(QWidget *parent = nullptr); // 椭圆角卡片控件
     void loadImages();                                     // 加载图像资源
@@ -74,13 +80,13 @@ public slots:
     void updateProgressBarData();
 
 protected:
-    void paintEvent(QPaintEvent *event);
-    void resizeEvent(QResizeEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    bool event(QEvent *e);
-    void wheelEvent(QWheelEvent *event);
+    void paintEvent(QPaintEvent *event) override;
+    // void resizeEvent(QResizeEvent *event);
+    // void mousePressEvent(QMouseEvent *event);
+    // void mouseMoveEvent(QMouseEvent *event);
+    // void mouseReleaseEvent(QMouseEvent *event);
+    // bool event(QEvent *e) override;
+    // void wheelEvent(QWheelEvent *event);
 
 private:
     // 图像资源管理器 (存储多个像素图资源)

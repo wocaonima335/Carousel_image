@@ -1,3 +1,0 @@
-D:\360Downloads\Cmake\bin\cmake.exe -E rm -f CMakeFiles\Carousel_image.dir/objects.a
-D:\360Downloads\QT\Tools\mingw1310_64\bin\ar.exe qc CMakeFiles\Carousel_image.dir/objects.a @CMakeFiles\Carousel_image.dir\objects1.rsp
-D:\360Downloads\QT\Tools\mingw1310_64\bin\g++.exe -g -mwindows -Wl,--whole-archive CMakeFiles\Carousel_image.dir/objects.a -Wl,--no-whole-archive -o Carousel_image.exe -Wl,--out-implib,libCarousel_image.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Carousel_image.dir\linkLibs.rsp

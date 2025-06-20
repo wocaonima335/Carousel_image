@@ -1,8 +1,0 @@
-D:/Qtprogram/Carousel_image/build/CMakeFiles/Carousel_image.dir
-D:/Qtprogram/Carousel_image/build/CMakeFiles/edit_cache.dir
-D:/Qtprogram/Carousel_image/build/CMakeFiles/rebuild_cache.dir
-D:/Qtprogram/Carousel_image/build/CMakeFiles/list_install_components.dir
-D:/Qtprogram/Carousel_image/build/CMakeFiles/install.dir
-D:/Qtprogram/Carousel_image/build/CMakeFiles/install/local.dir
-D:/Qtprogram/Carousel_image/build/CMakeFiles/install/strip.dir
-D:/Qtprogram/Carousel_image/build/CMakeFiles/Carousel_image_autogen.dir

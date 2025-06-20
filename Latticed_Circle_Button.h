@@ -24,7 +24,7 @@ public:
     };
 
     // 动画指针使用功能描述命名
-    QPropertyAnimation *expandAnimation;      // 展开动画
+    QPropertyAnimation *opacityAnimation;     // 展开动画
     QPropertyAnimation *colorChangeAnimation; // 颜色变换动画
 
     // 布尔状态变量添加 is/has 前缀

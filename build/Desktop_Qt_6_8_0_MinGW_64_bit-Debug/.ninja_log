@@ -1,9 +1,0 @@
-# ninja log v6
-6	762	7718857996179787	Carousel_image_autogen/timestamp	bed0a974ae1c552d
-6	762	7718857996179787	Carousel_image_autogen/mocs_compilation.cpp	bed0a974ae1c552d
-6	762	7718857996179787	D:/Qtprogram/Carousel_image/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/Carousel_image_autogen/timestamp	bed0a974ae1c552d
-6	762	7718857996179787	D:/Qtprogram/Carousel_image/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/Carousel_image_autogen/mocs_compilation.cpp	bed0a974ae1c552d
-764	3144	7718857997297089	CMakeFiles/Carousel_image.dir/Carousel_image_autogen/mocs_compilation.cpp.obj	ff8346c6a3d76d38
-768	3229	7718857997327139	CMakeFiles/Carousel_image.dir/main.cpp.obj	b534989fbcd65d08
-771	3251	7718857997367098	CMakeFiles/Carousel_image.dir/widget.cpp.obj	9648b907b0e82cea
-3251	3543	7718858022156678	Carousel_image.exe	31d28eaaf53ca4a
